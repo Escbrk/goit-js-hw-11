@@ -1,12 +1,13 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
+
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const refs = {
   input: document.querySelector('[type="text"]'),
   searchBtn: document.querySelector('[type="submit"]'),
-  jsList: document.querySelector('.js-list'),
+  gallery: document.querySelector('.gallery'),
 };
 
 const params = {
@@ -32,9 +33,7 @@ function onSearch(e) {
   e.preventDefault();
 
   getGaleryItems()
-    .then(data => {
-      refs.jsList.innerHTML = createMarkup(data.hits);
-    })
+    .then(data => (refs.gallery.innerHTML = createMarkup(data.hits)))
     .catch(err => console.error(err));
 }
 
@@ -61,7 +60,7 @@ function createMarkup(arr) {
         return `
     <li>
         <a href='${largeImageURL}'>
-            <img src="${webformatURL}" alt="${tags}" />
+            <img src="${webformatURL}" alt="${tags}" data-source=${largeImageURL}/>
         </a>
         <span>Likes: ${likes}</span>
         <span>Views: ${views}</span>
@@ -70,12 +69,7 @@ function createMarkup(arr) {
     </li>`;
       }
     )
-    .join(' ');
+    .join('');
 }
 
-//         <img src="${largeImageURL}" alt="${tags}" />
-
-let gallery = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionDelay: 250,
-});
+let lightbox = new SimpleLightbox('.gallery a');
