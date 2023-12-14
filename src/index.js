@@ -34,7 +34,7 @@ refs.searchBtn.addEventListener('click', onSearch);
 function onSearch(e) {
   e.preventDefault();
   
-  if(refs.input.value === ''){
+  if(refs.input.value.trim() === ''){
     return
   }
 
