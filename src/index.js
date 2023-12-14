@@ -33,6 +33,8 @@ refs.searchBtn.addEventListener('click', onSearch);
 
 function onSearch(e) {
   e.preventDefault();
+  
+  refs.input.value.trim()
 
   refs.gallery.innerHTML = `<span class="loader"></span>`
 
