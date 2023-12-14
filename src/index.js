@@ -34,8 +34,13 @@ refs.searchBtn.addEventListener('click', onSearch);
 function onSearch(e) {
   e.preventDefault();
   
-  if(refs.input.value.trim() === ''){
-    return
+  if (refs.input.value.trim() === '') {
+    
+    // refs.gallery.innerHTML = ''
+    return iziToast.error({
+      message: 'Sorry, the field must be filled in!',
+      position: 'topRight',
+    });
   }
 
   refs.gallery.innerHTML = '<span class="loader"></span>'
