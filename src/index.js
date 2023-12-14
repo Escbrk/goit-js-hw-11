@@ -15,6 +15,8 @@ const params = {
   BASE_URL: 'https://pixabay.com/api/',
 };
 
+let lightbox = new SimpleLightbox('.gallery a');
+
 function getGaleryItems() {
   return fetch(
     `${params.BASE_URL}?key=${params.API_KEY}&q=${refs.input.value}&image_type=photo&orientation=horizontal&safesearch=true`
@@ -32,17 +34,21 @@ refs.searchBtn.addEventListener('click', onSearch);
 function onSearch(e) {
   e.preventDefault();
 
+  refs.gallery.innerHTML = `<span class="loader"></span>`
+
   getGaleryItems()
-    .then(data => (refs.gallery.innerHTML = createMarkup(data.hits)))
+    .then(data => {
+      refs.gallery.innerHTML = createMarkup(data.hits);
+      lightbox.refresh();
+    })
     .catch(err => console.error(err));
 }
 
 function createMarkup(arr) {
   if (arr.length === 0) {
     iziToast.error({
-      title: 'Error',
       message:
-        'Sorry, there are no images matching your search query. Please try again!',
+        'Sorry, there are no images matching <br> your search query. Please try again!',
       position: 'topRight',
     });
   }
@@ -58,18 +64,23 @@ function createMarkup(arr) {
         downloads,
       }) => {
         return `
-    <li>
+    <li class='gallery-item'>
         <a href='${largeImageURL}'>
-            <img src="${webformatURL}" alt="${tags}" data-source=${largeImageURL}/>
+            <img src="${webformatURL}" alt="${tags}" data-source=${largeImageURL} class='gallery-img'/>
         </a>
-        <span>Likes: ${likes}</span>
-        <span>Views: ${views}</span>
-        <span>Comments: ${comments}</span>
-        <span>Downloads: ${downloads}</span>
+        <div class='text-container'>
+            <p>Likes<span>${likes}</span></p>
+            <p>Views<span>${views}</span></p>
+            <p>Comments<span>${comments}</span></p>
+            <p>Downloads<span>${downloads}</span></p>
+        </div>
     </li>`;
       }
     )
     .join('');
 }
 
-let lightbox = new SimpleLightbox('.gallery a');
+// <span>Likes: ${likes}</span>
+// <span>Views: ${views}</span>
+// <span>Comments: ${comments}</span>
+// <span>Downloads: ${downloads}</span>
