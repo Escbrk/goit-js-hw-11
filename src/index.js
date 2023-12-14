@@ -38,7 +38,7 @@ function onSearch(e) {
     return
   }
 
-  refs.gallery.innerHTML = `<span class="loader"></span>`
+  refs.gallery.innerHTML = '<span class="loader"></span>'
 
   getGaleryItems()
     .then(data => {
