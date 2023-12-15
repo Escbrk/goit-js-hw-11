@@ -88,8 +88,3 @@ function createMarkup(arr) {
     )
     .join('');
 }
-
-// <span>Likes: ${likes}</span>
-// <span>Views: ${views}</span>
-// <span>Comments: ${comments}</span>
-// <span>Downloads: ${downloads}</span>
